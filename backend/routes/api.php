@@ -25,6 +25,7 @@ Route::group(['prefix' => 'users', 'middleware' => 'auth:sanctum'], function(){
         Route::get('/search', 'search');
         Route::resource('/conversations', \App\Http\Controllers\ConversationController::class);
         Route::get('/conversations/{conversation}/messages', [ \App\Http\Controllers\MessageController::class, 'index']);
+        Route::post('/conversations/{conversation}/messages', [ \App\Http\Controllers\MessageController::class, 'store']);
     });
 });
 

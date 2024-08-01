@@ -24,9 +24,17 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Conversation $conversation)
     {
-        //
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+        $message = $conversation->messages()->create([
+            'content' => $request->content,
+            'user_id' => $request->user()->id,
+        ]);
+
+        return response()->json($message);
     }
 
     /**
