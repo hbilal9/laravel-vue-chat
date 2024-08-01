@@ -24,6 +24,7 @@ Route::group(['prefix' => 'users', 'middleware' => 'auth:sanctum'], function(){
     Route::controller(\App\Http\Controllers\UserController::class)->group(function () {
         Route::get('/search', 'search');
         Route::resource('/conversations', \App\Http\Controllers\ConversationController::class);
+        Route::get('/conversations/{conversation}/messages', [ \App\Http\Controllers\MessageController::class, 'index']);
     });
 });
 

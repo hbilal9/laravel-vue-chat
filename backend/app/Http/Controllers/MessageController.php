@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Http\Request;
 
@@ -10,17 +11,14 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Conversation $conversation)
     {
-        //
-    }
+        $messages = $conversation->messages()
+            ->with('user')
+            ->orderBy('created_at', 'asc')
+            ->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->json($messages);
     }
 
     /**
@@ -35,14 +33,6 @@ class MessageController extends Controller
      * Display the specified resource.
      */
     public function show(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Message $message)
     {
         //
     }
