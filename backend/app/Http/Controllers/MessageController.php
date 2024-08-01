@@ -14,7 +14,7 @@ class MessageController extends Controller
     public function index(Conversation $conversation)
     {
         $messages = $conversation->messages()
-            ->with('user')
+            ->with('user:id,name,is_online,last_online_at')
             ->orderBy('created_at', 'asc')
             ->get();
 
