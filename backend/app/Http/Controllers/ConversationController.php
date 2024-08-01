@@ -16,33 +16,33 @@ class ConversationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+        $user = $request->user();
+
+        // Create a new conversation
+        $conversation = Conversation::create();
+        
+        // Attach both users to the conversation
+        $conversation->users()->attach([$user->id, $request->user_id]);
+
+        // Reload the conversation with the users excluding the logged-in user
+        $conversation->load(['users' => function ($query) use ($user) {
+            $query->where('users.id', '!=', $user->id);
+        }]);
+
+        return response()->json($conversation);
     }
 
     /**
      * Display the specified resource.
      */
     public function show(Conversation $conversation)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Conversation $conversation)
     {
         //
     }
