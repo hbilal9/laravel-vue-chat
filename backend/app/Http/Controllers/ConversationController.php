@@ -10,9 +10,14 @@ class ConversationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = $request->user();
+        $conversations = $user->conversations;
+        $conversations->load(['users' => function ($query) use ($user) {
+            $query->where('users.id', '!=', $user->id);
+        }]);
+        return response()->json($conversations);
     }
 
     /**
