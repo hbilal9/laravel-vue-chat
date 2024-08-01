@@ -13,8 +13,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "pinia": "^2.1.7",
     "primevue": "^4.0.3",
+    "tailwind-merge": "^2.4.0",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },
