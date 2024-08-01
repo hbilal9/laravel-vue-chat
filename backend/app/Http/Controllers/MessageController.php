@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Http\Request;
@@ -33,6 +34,8 @@ class MessageController extends Controller
             'content' => $request->content,
             'user_id' => $request->user()->id,
         ]);
+
+        broadcast(new MessageSent($message))->toOthers();
 
         return response()->json($message);
     }
