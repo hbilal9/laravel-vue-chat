@@ -44,6 +44,13 @@ class MessageController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function markAsDelivered(Message $message)
+    {
+        $message->update(['delivered' => true]);
+        // broadcast(new MessageDelivered($message))->toOthers();
+        return response()->json(['success' => true]);
+    }
+
     /**
      * Update the specified resource in storage.
      */

@@ -27,6 +27,7 @@ Route::group(['prefix' => 'users', 'middleware' => 'auth:sanctum'], function(){
         Route::get('/conversations/{conversation}/messages', [ \App\Http\Controllers\MessageController::class, 'index']);
         Route::post('/conversations/{conversation}/messages', [ \App\Http\Controllers\MessageController::class, 'store']);
         Route::get('/messages/{message}/mark-seen', [ \App\Http\Controllers\MessageController::class, 'markAsSeen']);
+        Route::get('/messages/{message}/mark-deliverd', [ \App\Http\Controllers\MessageController::class, 'markAsDelivered']);
     });
 });
 
