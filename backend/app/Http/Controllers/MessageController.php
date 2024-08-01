@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSeen;
 use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -43,7 +44,7 @@ class MessageController extends Controller
     public function markAsSeen(Message $message)
     {
         $message->update(['seen' => true, 'seen_at' => now()]);
-        // broadcast(new MessageSeen($message))->toOthers();
+        broadcast(new MessageSeen($message))->toOthers();
         return response()->json(['success' => true]);
     }
 
