@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
+            $table->string('last_message')->nullable();
+            $table->timestamp('last_message_at')->nullable();
             $table->timestamps();
         });
     }

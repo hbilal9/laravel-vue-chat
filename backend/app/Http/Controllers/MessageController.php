@@ -36,7 +36,7 @@ class MessageController extends Controller
         ]);
 
         broadcast(new MessageSent($message))->toOthers();
-
+        $conversation->update(['last_message' => $message->content, 'last_message_at' => now()]);
         return response()->json($message);
     }
 
