@@ -49,4 +49,9 @@ class AuthController extends Controller
             'success' => true
         ]);
     }
+
+    public function getProfile(Request $request)
+    {
+       return $request->user();
+    }
 }

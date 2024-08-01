@@ -14,3 +14,9 @@ Route::group(['prefix' => 'auth'], function(){
     });
 });
 
+Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function(){
+        Route::controller(\App\Http\Controllers\AuthController::class)->group(function () {
+        Route::get('/me', 'getProfile');
+    });
+});
+
