@@ -37,12 +37,11 @@ class MessageController extends Controller
         return response()->json($message);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Message $message)
+    public function markAsSeen(Message $message)
     {
-        //
+        $message->update(['seen' => true, 'seen_at' => now()]);
+        // broadcast(new MessageSeen($message))->toOthers();
+        return response()->json(['success' => true]);
     }
 
     /**
