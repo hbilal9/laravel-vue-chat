@@ -29,6 +29,9 @@ importers:
       vue-router:
         specifier: ^4.3.3
         version: 4.4.2(vue@3.4.35(typescript@5.4.5))
+      vue3-chat-scroll:
+        specifier: ^0.2.0
+        version: 0.2.0(vue@3.4.35(typescript@5.4.5))
     devDependencies:
       '@rushstack/eslint-patch':
         specifier: ^1.8.0
@@ -1938,6 +1941,11 @@ packages:
     peerDependencies:
       typescript: '>=5.0.0'
 
+  vue3-chat-scroll@0.2.0:
+    resolution: {integrity: sha512-PnYpiabKgWNXktiXy9OqZJAic1p3SCo7YG7QwbvDBb90dA+YcnA0ZfQTEkDePiXqmJ4TtQDTYBs7tXKKmit+yw==}
+    peerDependencies:
+      vue: ^3.0.0
+
   vue@3.4.35:
     resolution: {integrity: sha512-+fl/GLmI4GPileHftVlCdB7fUL4aziPcqTudpTGXCT8s+iZWuOCeNEB5haX6Uz2IpRrbEXOgIFbe+XciCuGbNQ==}
     peerDependencies:
@@ -3819,6 +3827,10 @@ snapshots:
       '@vue/language-core': 2.0.29(typescript@5.4.5)
       semver: 7.6.3
       typescript: 5.4.5
+
+  vue3-chat-scroll@0.2.0(vue@3.4.35(typescript@5.4.5)):
+    dependencies:
+      vue: 3.4.35(typescript@5.4.5)
 
   vue@3.4.35(typescript@5.4.5):
     dependencies:

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, ref, onMounted } from 'vue'
+import { watch, ref } from 'vue'
 import { useConversationStore } from '@/stores/conversationStore'
 import { useMessageStore } from '@/stores/messageStore'
 import { useAuthStore } from '@/stores/authStore'
@@ -76,6 +76,19 @@ const isUserAtBottom = () => {
   const container = messageContainer.value
   return container?.scrollTop! + container?.clientHeight! >= container?.scrollHeight! - 20 // 20px threshold
 }
+
+const scrollToBottom = () => {
+  if (messageContainer.value) {
+    messageContainer.value.scrollTop = messageContainer.value.scrollHeight
+  }
+}
+
+watch(
+  () => store.messages,
+  () => {
+    scrollToBottom()
+  }
+)
 </script>
 
 <template>
@@ -84,6 +97,7 @@ const isUserAtBottom = () => {
       @scroll="onScroll"
       class="flex flex-col gap-2 h-full overflow-auto justify-start px-2 py-2"
       ref="messageContainer"
+      v-chat-scroll
     >
       <Message v-for="msg in store.messages" :key="msg.id" :message="msg" />
     </ul>
@@ -91,7 +105,7 @@ const isUserAtBottom = () => {
   <div class="h-5 text-start">
     <div v-if="typing" class="text-sm text-gray-500 mt-2">Typing...</div>
   </div>
-  <div class="flex gap-2">
+  <div v-if="conversationStore.selectedConversation" class="flex gap-2">
     <TextInput
       @input="handleWhiser"
       v-model="message"
