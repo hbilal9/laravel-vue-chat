@@ -50,12 +50,14 @@ const handleSendMessage = async () => {
 </script>
 
 <template>
-  <div class="bg-gray-200 rounded h-full w-full mt-4">
-    <ul class="flex flex-col gap-2 grow justify-start px-2 py-2">
+  <div class="bg-gray-200 rounded w-full mt-4 overflow-hidden">
+    <ul class="flex flex-col gap-2 h-full overflow-auto justify-start px-2 py-2">
       <Message v-for="msg in store.messages" :key="msg.id" :message="msg" />
     </ul>
   </div>
-  <div v-if="typing" class="text-sm text-gray-500 mt-2">Typing...</div>
+  <div class="h-5 text-start">
+    <div v-if="typing" class="text-sm text-gray-500 mt-2">Typing...</div>
+  </div>
   <div class="flex gap-2">
     <TextInput
       @input="handleWhiser"

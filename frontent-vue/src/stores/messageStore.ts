@@ -25,6 +25,13 @@ export const useMessageStore = defineStore('messageStore', {
         console.log(error)
       }
     },
+    async markMsgAsSeen(messageId: number) {
+      try {
+        await http().post(`/users/messages/${messageId}/mark-seen`)
+      } catch (error: any) {
+        console.log(error)
+      }
+    },
     addMessage(message: IMessage) {
       this.messages.push(message)
     }
