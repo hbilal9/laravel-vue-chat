@@ -29,11 +29,20 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
+  const changeOnlineStatus = async (status: boolean) => {
+    try {
+      await http().post('/users/online-status', { status })
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
+
   return {
     user,
     isLoggedIn,
     loginErrorMessage,
     getProfile,
+    changeOnlineStatus,
     login
   }
 })
