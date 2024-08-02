@@ -2,6 +2,9 @@
 import { reactive } from 'vue'
 import Button from '@/components/ui/Button.vue'
 import TextInput from '@/components/ui/TextInput.vue'
+import { useAuthStore } from '@/stores/authStore'
+
+const auth = useAuthStore()
 
 const user = reactive({
   email: 'hbilal@gmail.com',
@@ -37,9 +40,13 @@ const user = reactive({
                   label="Password"
                   placeholder="Enter Password"
                 />
-                <small class="text-danger text-xs text-center block"></small>
+                <small class="text-danger text-xs text-center block">
+                  {{ auth.loginErrorMessage }}
+                </small>
 
-                <Button class="w-full h-12 rounded-lg mt-2"> Login </Button>
+                <Button @click="auth.login(user)" class="w-full h-12 rounded-lg mt-2">
+                  Login
+                </Button>
               </form>
               <div class="w-full flex items-center flex-col justify-center mt-8">
                 <div>
