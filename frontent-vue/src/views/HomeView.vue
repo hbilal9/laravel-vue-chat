@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import List from '@/components/chat/conversation/List.vue'
 import { useAuthStore } from '@/stores/authStore'
 
@@ -7,6 +7,10 @@ const auth = useAuthStore()
 
 onMounted(() => {
   auth.getProfile()
+})
+
+onUnmounted(() => {
+  auth.changeOnlineStatus(false)
 })
 </script>
 
