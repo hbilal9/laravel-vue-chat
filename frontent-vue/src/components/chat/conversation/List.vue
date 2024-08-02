@@ -11,8 +11,13 @@ onMounted(() => {
   console.log('here')
   echo
     .private(`conversation.${1}`)
-    .listen('OnlineStatus', (event) => {
-      console.log('event', event)
+    .listen('OnlineStatus', (event: { user_id: number; is_online: string }) => {
+      store.conversations = store.conversations.map((conversation) => {
+        if (conversation.users[0].id === event.user_id) {
+          conversation.users[0].is_online = event.is_online
+        }
+        return conversation
+      })
     })
     .subscribed(() => {
       console.log('subscribed')
