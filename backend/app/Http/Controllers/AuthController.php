@@ -52,6 +52,9 @@ class AuthController extends Controller
 
     public function getProfile(Request $request)
     {
-       return $request->user();
+        $user = $request->user();
+        $user->is_online = true;
+        $user->save();
+        return $user;
     }
 }
