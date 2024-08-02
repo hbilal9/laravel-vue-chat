@@ -21,7 +21,12 @@ defineProps<{
     </span>
     <span class="flex gap-1 text-xs self-end"
       >2hrs ago
-      <p class="text-green-600">&#x2713;</p></span
+      <p
+        v-if="auth.user?.id === message.user_id"
+        :class="message.seen ? 'text-green-600' : 'text-gray-600'"
+      >
+        &#x2713;
+      </p></span
     >
   </li>
 </template>

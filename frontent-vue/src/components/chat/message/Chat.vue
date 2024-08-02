@@ -5,6 +5,7 @@ import { useMessageStore } from '@/stores/messageStore'
 import Message from './Message.vue'
 import TextInput from '@/components/ui/TextInput.vue'
 import echo from '@/services/echo'
+import type { IMessage } from '@/types/conversation'
 
 const conversationStore = useConversationStore()
 const store = useMessageStore()
@@ -30,6 +31,13 @@ watch(
           typing.value = false
         }, 2000)
       })
+      .listen('MessageSeen', (e: { message: IMessage }) => {
+        const seenMessage = store.messages.find((m) => m.id === e.message.id)
+        if (seenMessage) {
+          seenMessage.seen = true
+          seenMessage.seen_at = e.message.seen_at
+        }
+      })
   }
 )
 
@@ -47,11 +55,23 @@ const handleSendMessage = async () => {
   await store.sendMessage(data)
   message.value = ''
 }
+
+const messageContainer = ref<HTMLElement | null>(null)
+const onScroll = () => {
+  const container = messageContainer.value
+  if (container?.scrollTop! + container?.clientHeight! >= container?.scrollHeight!) {
+    store.markMsgAsSeen(conversationStore.selectedConversation?.id!)
+  }
+}
 </script>
 
 <template>
   <div class="bg-gray-200 rounded w-full mt-4 overflow-hidden">
-    <ul class="flex flex-col gap-2 h-full overflow-auto justify-start px-2 py-2">
+    <ul
+      @scroll="onScroll"
+      class="flex flex-col gap-2 h-full overflow-auto justify-start px-2 py-2"
+      ref="messageContainer"
+    >
       <Message v-for="msg in store.messages" :key="msg.id" :message="msg" />
     </ul>
   </div>
