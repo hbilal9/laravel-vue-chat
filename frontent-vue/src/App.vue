@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <router-view />
+  <div class="w-full">
+    <router-view />
+  </div>
 </template>
