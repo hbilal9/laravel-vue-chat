@@ -7,12 +7,28 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      beforeEnter: (to, from, next) => {
+        const token = localStorage.getItem('token')
+        if (token) {
+          next()
+        } else {
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/auth/LoginView.vue')
+      component: () => import('@/views/auth/LoginView.vue'),
+      beforeEnter: (to, from, next) => {
+        const token = localStorage.getItem('token')
+        if (token) {
+          next({ name: 'home' })
+        } else {
+          next()
+        }
+      }
     }
   ]
 })
