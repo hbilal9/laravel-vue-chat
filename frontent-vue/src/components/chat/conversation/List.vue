@@ -2,11 +2,21 @@
 import { onMounted } from 'vue'
 import Item from './Item.vue'
 import { useConversationStore } from '@/stores/conversationStore'
+import echo from '@/services/echo'
 
 const store = useConversationStore()
 
 onMounted(() => {
   store.fetchConversations()
+  console.log('here')
+  echo
+    .join(`conversation.${1}`)
+    .listen('MessageSent', (event) => {
+      console.log('event', event)
+    })
+    .subscribed(() => {
+      console.log('subscribed')
+    })
 })
 </script>
 
