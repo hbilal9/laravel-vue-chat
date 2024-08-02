@@ -24,6 +24,9 @@ export const useMessageStore = defineStore('messageStore', {
       } catch (error: any) {
         console.log(error)
       }
+    },
+    addMessage(message: IMessage) {
+      this.messages.push(message)
     }
   }
 })

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { watch, ref } from 'vue'
+import { watch, ref, onMounted } from 'vue'
 import { useConversationStore } from '@/stores/conversationStore'
 import { useMessageStore } from '@/stores/messageStore'
 import Message from './Message.vue'
 import TextInput from '@/components/ui/TextInput.vue'
+import echo from '@/services/echo'
 
 const conversationStore = useConversationStore()
 const store = useMessageStore()
@@ -13,8 +14,10 @@ const message = ref('')
 watch(
   () => conversationStore.selectedConversation,
   (conversation) => {
-    console.log(conversation)
     store.fetchMessages(conversation?.id!)
+    echo.join(`conversation.${conversation?.id}`).listen('MessageSent', (e) => {
+      store.addMessage(e.message)
+    })
   }
 )
 
