@@ -20,10 +20,20 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
+  const getProfile = async () => {
+    try {
+      const response = await http().get('/auth/me')
+      user.value = response.data
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
+
   return {
     user,
     isLoggedIn,
     loginErrorMessage,
+    getProfile,
     login
   }
 })
