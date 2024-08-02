@@ -13,6 +13,7 @@ export interface IMessage {
   id: number
   conversation_id: number
   user: IUser
+  user_id: number
   content: string
   seen: boolean
   seen_at: string
