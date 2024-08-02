@@ -2,6 +2,7 @@
 import { watch, ref, onMounted } from 'vue'
 import { useConversationStore } from '@/stores/conversationStore'
 import { useMessageStore } from '@/stores/messageStore'
+import { useAuthStore } from '@/stores/authStore'
 import Message from './Message.vue'
 import TextInput from '@/components/ui/TextInput.vue'
 import echo from '@/services/echo'
@@ -9,6 +10,7 @@ import type { IMessage } from '@/types/conversation'
 
 const conversationStore = useConversationStore()
 const store = useMessageStore()
+const auth = useAuthStore()
 
 const message = ref('')
 const typing = ref(false)
@@ -19,10 +21,12 @@ watch(
     store.fetchMessages(conversation?.id!)
     echo
       .join(`conversation.${conversation?.id}`)
-      .listen('MessageSent', (e) => {
-        store.addMessage(e.message)
+      .listen('MessageSent', (e: { message: IMessage }) => {
+        if (e.message.user_id !== auth.user?.id) {
+          store.addMessage(e.message)
+        }
       })
-      .listenForWhisper('typing', (e) => {
+      .listenForWhisper('typing', (e: { typing: boolean }) => {
         typing.value = e.typing
         if (timeout.value) {
           clearTimeout(timeout.value)
@@ -36,6 +40,9 @@ watch(
         if (seenMessage) {
           seenMessage.seen = true
           seenMessage.seen_at = e.message.seen_at
+        }
+        if (isUserAtBottom()) {
+          store.markMsgAsSeen(conversationStore.selectedConversation?.id!)
         }
       })
   }
@@ -60,8 +67,14 @@ const messageContainer = ref<HTMLElement | null>(null)
 const onScroll = () => {
   const container = messageContainer.value
   if (container?.scrollTop! + container?.clientHeight! >= container?.scrollHeight!) {
+    console.log('object')
     store.markMsgAsSeen(conversationStore.selectedConversation?.id!)
   }
+}
+
+const isUserAtBottom = () => {
+  const container = messageContainer.value
+  return container?.scrollTop! + container?.clientHeight! >= container?.scrollHeight! - 20 // 20px threshold
 }
 </script>
 
