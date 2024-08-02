@@ -14,6 +14,16 @@ export const useMessageStore = defineStore('messageStore', {
       } catch (error: any) {
         console.log(error)
       }
+    },
+    async sendMessage(data: { conversationId: number | string; content: string }) {
+      try {
+        const response = await http().post(`/users/conversations/${data.conversationId}/messages`, {
+          content: data.content
+        })
+        this.messages.push(response.data)
+      } catch (error: any) {
+        console.log(error)
+      }
     }
   }
 })
