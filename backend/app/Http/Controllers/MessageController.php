@@ -41,10 +41,19 @@ class MessageController extends Controller
         return response()->json($message);
     }
 
-    public function markAsSeen(Message $message)
+    public function markAsSeen(Request $request,Conversation $conversation)
     {
-        $message->update(['seen' => true, 'seen_at' => now()]);
-        broadcast(new MessageSeen($message))->toOthers();
+        $user = $request->user();
+
+        $messages = $conversation->messages()
+        ->where('user_id', '!=', $user->id)
+        ->where('seen', false)
+        ->get();
+
+        foreach ($messages as $message) {
+            $message->update(['seen' => true]);
+            broadcast(new MessageSeen($message))->toOthers();
+        }
         return response()->json(['success' => true]);
     }
 

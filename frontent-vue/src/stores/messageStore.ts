@@ -25,9 +25,9 @@ export const useMessageStore = defineStore('messageStore', {
         console.log(error)
       }
     },
-    async markMsgAsSeen(messageId: number) {
+    async markMsgAsSeen(conversationId: number) {
       try {
-        await http().post(`/users/messages/${messageId}/mark-seen`)
+        await http().post(`/users/conversations/${conversationId}/mark-seen`)
       } catch (error: any) {
         console.log(error)
       }
