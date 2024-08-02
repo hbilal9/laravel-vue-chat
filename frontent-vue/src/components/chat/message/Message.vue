@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { IMessage } from '@/types/conversation'
 import { useAuthStore } from '@/stores/authStore'
+import { timeAgo } from '@/utils/moment'
 
 const auth = useAuthStore()
 
@@ -19,8 +20,8 @@ defineProps<{
     <span class="">
       {{ message.content }}
     </span>
-    <span class="flex gap-1 text-xs self-end"
-      >2hrs ago
+    <span class="flex gap-1 text-xs self-end">
+      {{ timeAgo(message.created_at) }}
       <p
         v-if="auth.user?.id === message.user_id"
         :class="message.seen ? 'text-green-600' : 'text-gray-600'"
