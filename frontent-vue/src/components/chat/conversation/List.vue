@@ -10,8 +10,8 @@ onMounted(() => {
   store.fetchConversations()
   console.log('here')
   echo
-    .join(`conversation.${1}`)
-    .listen('MessageSent', (event) => {
+    .private(`conversation.${1}`)
+    .listen('OnlineStatus', (event) => {
       console.log('event', event)
     })
     .subscribed(() => {

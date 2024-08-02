@@ -36,13 +36,14 @@ class OnlineStatus implements ShouldBroadcastNow
         // Create an array of channels, one for each conversation
         return $conversations->map(function ($conversation) {
             return new PrivateChannel('conversation.' . $conversation->id);
-        });
+        })->toArray();
     }
 
     public function broadcastWith(): array
     {
         return [
-            'user' => $this->user
+            'user_id' => $this->user->id,
+            'is_online' => $this->user->is_online,
         ];
     }
 }
